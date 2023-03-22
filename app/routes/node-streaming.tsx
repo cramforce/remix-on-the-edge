@@ -1,11 +1,11 @@
-import { Suspense } from 'react';
-import { defer } from '@vercel/remix';
-import type { LoaderArgs } from '@vercel/remix';
-import { Await, useLoaderData } from '@remix-run/react';
+import { Suspense } from "react";
+import { defer } from "@vercel/remix";
+import type { LoaderArgs } from "@vercel/remix";
+import { Await, useLoaderData } from "@remix-run/react";
 
-import { Footer } from '~/components/footer';
-import { Region } from '~/components/region';
-import { Illustration } from '~/components/illustration';
+import { Footer } from "~/components/footer";
+import { Region } from "~/components/region";
+import { Illustration } from "~/components/illustration";
 
 let isCold = true;
 let initialDate = Date.now();
@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const region = process.env.VERCEL_REGION;
   if (!region) {
-    throw new Error('`VERCEL_REGION` is not defined');
+    throw new Error("`VERCEL_REGION` is not defined");
   }
 
   return defer({
@@ -36,12 +36,13 @@ function sleep<T>(val: T, ms: number) {
 
 export function headers() {
   return {
-    'x-serverless-age': Date.now() - initialDate,
+    "x-serverless-age": Date.now() - initialDate,
   };
 }
 
 export default function App() {
   const { version, region, isCold, date } = useLoaderData<typeof loader>();
+  console.log("Render", version, region, isCold, date);
   return (
     <>
       <main>
@@ -88,11 +89,18 @@ export default function App() {
 
 function Nodejs(props: React.HTMLAttributes<HTMLOrSVGElement>) {
   return (
-    <svg width={127} height={144} viewBox="0 0 127 144" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      width={127}
+      height={144}
+      viewBox="0 0 127 144"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <mask
         id="a"
         style={{
-          maskType: 'luminance',
+          maskType: "luminance",
         }}
         maskUnits="userSpaceOnUse"
         x={0}
@@ -114,7 +122,7 @@ function Nodejs(props: React.HTMLAttributes<HTMLOrSVGElement>) {
       <mask
         id="b"
         style={{
-          maskType: 'luminance',
+          maskType: "luminance",
         }}
         maskUnits="userSpaceOnUse"
         x={2}
@@ -136,7 +144,7 @@ function Nodejs(props: React.HTMLAttributes<HTMLOrSVGElement>) {
       <mask
         id="c"
         style={{
-          maskType: 'luminance',
+          maskType: "luminance",
         }}
         maskUnits="userSpaceOnUse"
         x={4}
@@ -150,7 +158,10 @@ function Nodejs(props: React.HTMLAttributes<HTMLOrSVGElement>) {
         />
       </mask>
       <g mask="url(#c)">
-        <path d="M4.286.557v143.24H126.53V.557H4.286z" fill="url(#paint2_linear_0_1)" />
+        <path
+          d="M4.286.557v143.24H126.53V.557H4.286z"
+          fill="url(#paint2_linear_0_1)"
+        />
       </g>
       <defs>
         <linearGradient

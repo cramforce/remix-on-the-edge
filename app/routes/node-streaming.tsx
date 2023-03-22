@@ -11,7 +11,6 @@ let isCold = true;
 let initialDate = Date.now();
 
 export async function loader({ request }: LoaderArgs) {
-  await sleep("test", 10);
   const wasCold = isCold;
   isCold = false;
 
@@ -35,7 +34,8 @@ function sleep<T>(val: T, ms: number) {
   return new Promise<T>((resolve) => setTimeout(() => resolve(val), ms));
 }
 
-export function headers() {
+export async function headers() {
+  await sleep("test", 10);
   return {
     "x-serverless-age": Date.now() - initialDate,
   };

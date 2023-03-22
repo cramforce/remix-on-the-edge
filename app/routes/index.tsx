@@ -44,6 +44,8 @@ export function headers() {
 export default function App() {
   const { proxyRegion, computeRegion, isCold, date } =
     useLoaderData<typeof loader>();
+
+  console.log("Render", proxyRegion, computeRegion, isCold, date);
   return (
     <>
       <main>

@@ -1,14 +1,14 @@
-import { Suspense } from 'react';
-import { defer } from '@vercel/remix';
-import type { LoaderArgs } from '@vercel/remix';
-import { Await, useLoaderData } from '@remix-run/react';
+import { Suspense } from "react";
+import { defer } from "@vercel/remix";
+import type { LoaderArgs } from "@vercel/remix";
+import { Await, useLoaderData } from "@remix-run/react";
 
-import { Footer } from '~/components/footer';
-import { Region } from '~/components/region';
-import { Illustration } from '~/components/illustration';
-import { parseVercelId } from '~/parse-vercel-id';
+import { Footer } from "~/components/footer";
+import { Region } from "~/components/region";
+import { Illustration } from "~/components/illustration";
+import { parseVercelId } from "~/parse-vercel-id";
 
-export const config = { runtime: 'edge' };
+export const config = { runtime: "edge" };
 
 let isCold = true;
 let initialDate = Date.now();
@@ -19,12 +19,16 @@ export async function loader({ request }: LoaderArgs) {
 
   const parsedId = parseVercelId(request.headers.get("x-vercel-id"));
 
-  return defer({
+  console.log("Parsed ID", parsedId);
+
+  const deferred = defer({
     isCold: wasCold,
     proxyRegion: sleep(parsedId.proxyRegion, 1000),
     computeRegion: sleep(parsedId.computeRegion, 1500),
     date: new Date().toISOString(),
   });
+  console.log("Deferrered");
+  return deferred;
 }
 
 function sleep(val: any, ms: number) {
@@ -33,12 +37,13 @@ function sleep(val: any, ms: number) {
 
 export function headers() {
   return {
-    'x-edge-age': Date.now() - initialDate,
+    "x-edge-age": Date.now() - initialDate,
   };
 }
 
 export default function App() {
-  const { proxyRegion, computeRegion, isCold, date } = useLoaderData<typeof loader>();
+  const { proxyRegion, computeRegion, isCold, date } =
+    useLoaderData<typeof loader>();
   return (
     <>
       <main>

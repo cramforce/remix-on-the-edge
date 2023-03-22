@@ -19,7 +19,7 @@ export async function loader({ request }: LoaderArgs) {
 
   const region = process.env.VERCEL_REGION;
   if (!region) {
-    throw new Error("`VERCEL_REGION` is not defined");
+    throw new Error("`VERCEL_REGION` is not defined anymore");
   }
 
   return defer({
